@@ -1,0 +1,47 @@
+.container {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 800px;
+    padding: 12px;
+    background-color: #fff;    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: table;
+}
+
+.container > img{
+    width: 100%;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.container p{
+    padding: 20px 0;
+}
+
+.container .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 10px
+}
+.container .buttons .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+}
+.container .buttons .rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.container .buttons a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
