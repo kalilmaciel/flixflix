@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import api from "../../services/api";
 import Loading from "../../components/Loading";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import "./filme.css";
+import BtnSalvarFilme from "../../components/BtnSalvarFilme";
 
 function Filme() {
     const navigate = useNavigate();
@@ -17,26 +16,25 @@ function Filme() {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
-
     useEffect(() => {
         async function fetchMovies() {
-            await api.get(`/movie/${id}`, {})
-            .then((res) => {
-                setMovie(res.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-                Swal.fire({
-                    title: "Erro!",
-                    text: "Filme inexistente!",
-                    icon: "error",
-                    confirmButtonText: "OK"
-                }).then(() => {
-                    navigate("/");
+            await api
+                .get(`/movie/${id}`, {})
+                .then((res) => {
+                    setMovie(res.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    Swal.fire({
+                        title: "Erro!",
+                        text: "Filme inexistente!",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        navigate("/");
+                    });
                 });
-            });
         }
         fetchMovies();
     }, [id, navigate]);
@@ -59,9 +57,14 @@ function Filme() {
                             <span>({movie.vote_count})</span>
                         </div>
                         <div className="actions">
-                            <a href="#!">
-                                <FontAwesomeIcon icon={faThumbsUp} />
+                            <a
+                                href={`https://www.youtube.com/results?search_query=${movie.title}+trailer`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <FontAwesomeIcon icon={faVideo} />
                             </a>
+                            <BtnSalvarFilme movie={movie} />
                         </div>
                     </div>
                     <p>{movie.overview}</p>

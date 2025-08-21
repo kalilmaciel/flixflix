@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api"; // Assuming you have an API service set up
 import Loading from "../../components/Loading";
+import BtnSalvarFilme from "../../components/BtnSalvarFilme";
 import "./home.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faLeftLong, faRightLong } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const [totalResults, setTotalResults] = useState(0);
+    // const [totalResults, setTotalResults] = useState(0);
 
     useEffect(() => {
         async function fetchMovies() {
@@ -23,7 +24,7 @@ function Home() {
             });
             setMovies(response.data.results);
             setTotalPages(response.data.total_pages);
-            setTotalResults(response.data.total_results);
+            // setTotalResults(response.data.total_results);
             setLoading(false);
         }
         fetchMovies();
@@ -66,20 +67,21 @@ function Home() {
                                 <span>({movie.vote_count})</span>
                             </div>
                             <div className="actions">
-                                <a href="#!">
-                                    <FontAwesomeIcon icon={faThumbsUp} />
-                                </a>
+                                <BtnSalvarFilme movie={movie} />
                             </div>
                         </div>
                         <p>{movie.overview}</p>
                     </div>
                 </article>
             ))}
-            <button onClick={voltar} disabled={page === 1}>
+            <button onClick={voltar} disabled={page === 1} className="back-btn">
+                <FontAwesomeIcon icon={faLeftLong} className="left" />
+                ({page} / {totalPages})
                 Voltar
             </button>
-            <button onClick={avancar} disabled={page === totalPages}>
-                Avançar
+            <button onClick={avancar} disabled={page === totalPages} className="next-btn">
+                Avançar ({page} / {totalPages})
+                <FontAwesomeIcon icon={faRightLong} className="right" />
             </button>
         </div>
     );
